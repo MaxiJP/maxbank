@@ -9,11 +9,23 @@
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 LiquidCrystal lcd(0, 1, 2, 3, 4, 5);
 
+byte arrow[8] = { // custom arrow character, cos unicode and emojis dont work lol
+  0b01000,
+  0b00100,
+  0b00010,
+  0b11111,
+  0b00010,
+  0b00100,
+  0b01000,
+  0b00000
+};
+
 void setup() { 
   // Serial.begin(9600);
   SPI.begin(); // Init SPI bus
   rfid.PCD_Init(); // Init MFRC522 
   lcd.begin(16, 2); // Init LCD display
+  lcd.createChar(0, arrow); // Init Arrow Character
 }
  
 // Init balances
@@ -43,17 +55,25 @@ void loop() {
       lcd.setCursor(0, 0);
       lcd.print("Max's Balance:");
       lcd.setCursor(0, 1);
-      lcd.print(maxBal);
+      lcd.print(maxBal); // before balance
+      lcd.print(" "); 
+      lcd.write(byte(0)); // does an arrow for before and after balance
+      lcd.print(" ");
       // charge me for the use of the machine
       maxBal = maxBal - 100;
+      lcd.print(maxBal); // after balance
   } else if (maxString == "52 99 2b 55 ") { // if it's Daddy's card...
       // tell me my balance
       lcd.setCursor(0, 0);
       lcd.print("Dad's Balance:");
       lcd.setCursor(0, 1);
-      lcd.print(dadBal);
+      lcd.print(dadBal); // before balance
+      lcd.print(" "); 
+      lcd.write(byte(0)); // does an arrow for before and after balance
+      lcd.print(" ");
       // charge me for the use of the machine
       dadBal = dadBal - 100;
+      lcd.print(dadBal); // after balance
   } else {
      lcd.setCursor(0, 0);
      lcd.print("Wrong card!");
