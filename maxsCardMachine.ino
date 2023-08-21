@@ -31,6 +31,7 @@ void setup() {
 // Init balances
 int maxBal = 1500;
 int dadBal = 1100;
+int nemiBal = 2000;
 
 void loop() {
     // Tell reader to scan the card if there is none detected
@@ -74,9 +75,21 @@ void loop() {
       // charge me for the use of the machine
       dadBal = dadBal - 100;
       lcd.print(dadBal); // after balance
+  } else if (maxString == "4 8a 9 e2 c6 40 84 ") { // if it's Nemi's amiibo...
+      // tell me my balance
+      lcd.setCursor(0, 0);
+      lcd.print("Nemi's Balance:");
+      lcd.setCursor(0, 1);
+      lcd.print(nemiBal); // before balance
+      lcd.print(" "); 
+      lcd.write(byte(0)); // does an arrow for before and after balance
+      lcd.print(" ");
+      // charge me for the use of the machine
+      nemiBal = nemiBal - 100;
+      lcd.print(nemiBal); // after balance
   } else {
      lcd.setCursor(0, 0);
-     lcd.print("Wrong card!");
+     lcd.print(maxString);
   }
   delay(1000); // otherwise it would just go straight back to scan card and you wouldn't be able to read it
 
