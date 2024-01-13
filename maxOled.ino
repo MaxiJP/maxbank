@@ -15,7 +15,7 @@ void loop() {
   maxOLED.setCursor(0,0);
   maxOLED.print("-MAX BANK-");
   maxOLED.setTextSize(1);
-  maxOLED.setCursor(40,40);
-  maxOLED.print(millis());
+  maxOLED.setCursor(53,40);
+  maxOLED.print((millis() / 1000) - ((millis() % 1000) / 1000));
   maxOLED.display();
-} 
+}
